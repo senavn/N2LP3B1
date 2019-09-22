@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<HTML>
+
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- A biblioteca bundle já contem os arquivos JS do Bootstrap, Popper, e jQuery.
+    <script src="js/bootstrap.bundle.js"></script>-->
+    <title>FTT EC LP2 N1!!</title>
+    <LINK REL="stylesheet" HREF="css/bootstrap.css" />
+    <STYLE> 
+        .center-txt {
+            text-align: center;
+            color: black;
+            width: 90px;
+            padding: 4px;
+            margin:0;
+            border:0;
+        }
+        .button-selected {
+            background-color: #343a40;
+            color: white;
+            border-radius: 15px;
+        }       
+        .width-button-bar {
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-right: 0;
+            margin-left: 0;
+            
+        }
+        .bottom-button-bar {
+            margin:0;
+            padding:0;
+            border:0;
+            width: 100%;
+        }
+        .icon-font {
+            font-size: 40px;   
+        }
+        main {
+            padding-top: 56px;
+            padding-bottom: 50px;
+        }
+    </STYLE>
+    <SCRIPT>
+        
+        
+        
+        <!-- Obtenha sua própria chave (key), vou cancelar esta... --> 
+     
+        var url;
+        var searchPhotoText;
+        //Cria CARDS com os dados do JSON
+        //Referência: https://getbootstrap.com/docs/4.3/components/card/
+        function createPhotoGrid(nData) {
+
+            for (i in nData) {
+                
+                var a = document.createElement("ARTICLE"); // Create a <ARTICLE> element
+                a.setAttribute("class", "cardphoto");
+                
+
+                var nImg = document.createElement("IMG"); // Create a <H2> element
+                
+                var h2 = document.createElement("H2"); // Create a <H2> element
+                h2.setAttribute("class", "card-header");
+                
+                var desc = document.createElement("P"); // Create a <H2> element
+                desc.setAttribute("class", "card-body");
+
+                var ath = document.createElement("AUTHOR"); // Create a <AUTHOR> element
+                ath.setAttribute("class", "card-footer");
+
+                nImg.src = nData[i].download_url; // Create a text node
+                nImg.style.width = '100%';
+                nImg.style.borderRadius = '7px 7px 0 0';//The full width is 400px, 10px of border left and right
+                ath.innerText = nData[i].author;
+                // Create a text node
+                
+
+                a.appendChild(nImg);
+                a.appendChild(ath); // Append the text to 
+                
+                document.getElementById("aluno").appendChild(a);
+
+            } //for
+            
+            // remove imagens quebradas, deixa o card sem imagem
+            document.querySelectorAll('img').forEach(function(img){
+  	             img.onerror = function(){ this.style.display='none'; };
+            });
+          
+        } //createNewsCards
+
+        //Busca os dados da API (Serviço REST/JSON - AJAX)
+        function reloadPage() {
+
+            url = 'https://picsum.photos/v2/list?page=2&limit=100';
+            document.getElementById("aluno").innerHTML = "";
+            console.log(url);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function() {
+
+                if (xhr.status >= 200 && xhr.status < 300) {
+
+                    console.log('success!', JSON.parse(xhr.responseText));
+                    var photoData = JSON.parse(xhr.responseText);
+                    createPhotoGrid(photoData);
+
+                } else {
+                    
+                    let error_message= "Ops! Erro!!!<br>" + xhr.statusText;
+                    console.log(error_message);
+                    document.getElementById("aluno").innerHTML = error_message;
+                } //if
+
+            };
+
+            xhr.open('GET', url);
+            xhr.send();
+            
+        }
+
+
+    </SCRIPT>
+</HEAD>
+
+<BODY onload="reloadPage();" lang="pt-br">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand" href="#">&#x1F981; FTT EC LP2 N1!!!</a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <div class="navbar-nav float-right text-right pr-3">
+                <a class="nav-item nav-link" href="index.html">Splash</a>
+                <a class="nav-item nav-link" href="http://www.fundacaosalvadorarena.org.br/" target="newpage">CEFSA</a>
+                <a class="nav-item nav-link" href="about.html">Sobre</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" id="aluno">
+    
+    </main>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light width-button-bar">
+        <div class="row w-100 bottom-button-bar">
+            <div class="col-sm center-txt"><b onclick='window.location="tab01news.html"'>News<br><span class="icon-font">&#x1f4f0;</span></b>
+            </div>
+            <div class="col-sm center-txt"><b onclick='window.location="tab02map.html"'>Map<br><span class="icon-font">&#x1f4cc;</span></b>
+            </div>
+            <div class="col-sm center-txt"><b onclick='window.location="tab03todo.html"'>Todo<br><span class="icon-font">&#x1F4DD;</span></b>
+            </div>
+            <div class="col-sm center-txt button-selected"><b onclick='window.location="tab04project.html"'>Unsplash<br><span class="icon-font">&#9857;</span></b>
+            </div>
+        </div>
+    </nav>
+</BODY>
+<!-- carga de scripts do Bootstrap, JQuery, Popper -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+</HTML>
